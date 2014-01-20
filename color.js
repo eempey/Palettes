@@ -2,16 +2,25 @@ function colorToHex(color) {
     if (color.substr(0, 1) === '#') {
         return color;
     }
-    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+    var digits = /(.*?)rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/.exec(color);
+
 
     var red = parseInt(digits[2]);
     var green = parseInt(digits[3]);
     var blue = parseInt(digits[4]);
 
     var rgb = blue | (green << 8) | (red << 16);
-    //return digits[1] + '#' + rgb.toString(16);
     return "#" + ("000000"+rgb.toString(16)).slice(-6);
 };
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
 
 window.onload=function(){
 	
@@ -22,17 +31,15 @@ window.onload=function(){
 			
 			var parent = current.parentNode;
 			var nextSibling = parent.nextSibling;
-			//nextSibling.style.backgroundColor = "#123456";
-			//console.log(nextSibling);
-
 
 			var canvas = document.createElement("canvas");
 			canvas.id = "picker";
 			canvas.height = 600;
 			canvas.width = 600;
 			document.body.appendChild(canvas);
-			//parent.insertAdjacentHTML('afterend', canvas);
-		document.getElementById("colorForm").insertBefore(canvas, parent.nextSibling);
+			
+			document.getElementById("colorForm").insertBefore(canvas, parent.nextSibling);
+			
 			if(document.getElementById("picker")){
 				var pickerTool = document.getElementById("picker");
 				var ctx=pickerTool.getContext("2d");
@@ -90,12 +97,38 @@ window.onload=function(){
 		});//end click on colorBox
 	}
 
+	
+	
+	function inputColor(input){		
+		input.addEventListener("blur", function(){
+			var parentalUnit = input.parentNode;
+			var colorBox = parentalUnit.getElementsByClassName("colorBox")[0].style.backgroundColor = input.value;
+			if(input.className == "hex"){
+				document.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
+																		+ hexToRgb(input.value).g + ", "
+																		+ hexToRgb(input.value).b + ")";
+			}else if(input.className == "rgb"){
+				document.getElementsByClassName("hex")[0].value = colorToHex(input.value);
+			}
+		});
+	}
+
+	inputColor(document.getElementsByClassName("hex")[0]);
+	inputColor(document.getElementsByClassName("rgb")[0]);
+
+	function radioSwitcher(radioButton){
+		radioButton.addEventListener("click", function(){
+			var radioParent = radioButton.parentNode;
+			document.body.style.backgroundColor = radioParent.getElementsByClassName("hex")[0].value;
+		});
+	}
+	
+	radioSwitcher(document.getElementsByClassName('backgroundButton')[0]);
+	
+
 	var addButton = document.getElementsByClassName('add');
 	var colorForm = document.getElementById("colorForm");
-/*	var newp = document.createElement("p");
-	newp.innerHTML = "Hello World";
-	colorForm.appendChild(newp);
-*/
+
 	function createColorPanel(){		
 		var newNode = document.createElement("div");
 		newNode.className = "colorPanel";
@@ -104,7 +137,7 @@ window.onload=function(){
 		newNode.appendChild(newColorBox);
 		
 		backgroundRadio = document.createElement("input");
-		backgroundRadio.className = "backgroundRadio";
+		backgroundRadio.className = "backgroundButton";
 		backgroundRadio.type = "radio";
 		backgroundRadio.value = "background";
 		backgroundRadio.name = "background";
@@ -132,10 +165,12 @@ window.onload=function(){
 
 		hexText = document.createElement("input");
 		hexText.className = "hex";
+		hexText.placeholder = "hex";
 		newNode.appendChild(hexText);
 
 		rgbText = document.createElement("input");
 		rgbText.className = "rgb";
+		rgbText.placeholder = "rgb";
 		newNode.appendChild(rgbText);
 
 		newAddButton = document.createElement("button");
@@ -146,6 +181,21 @@ window.onload=function(){
 		colorForm.appendChild(newNode);
 		addPicker(newColorBox);
 		addButtonInitializer(newAddButton);
+
+		var hexBoxes = document.getElementsByClassName("hex");
+		for(i=0; i<hexBoxes.length; i++){
+			inputColor(hexBoxes[i]);
+		}
+
+		var rgbBoxes = document.getElementsByClassName("rgb");
+		for(i=0; i<hexBoxes.length; i++){
+			inputColor(rgbBoxes[i]);
+		}
+
+		var backgroundRadio = document.getElementsByClassName('backgroundButton');
+		for(i=0; i<backgroundRadio.length; i++){
+			radioSwitcher(backgroundRadio[i]);
+		}
 	}
 
 	function addButtonInitializer(button){
@@ -193,14 +243,10 @@ window.onload=function(){
 		});
 	}
 
+	
 
-
-	/*var addButton = document.getElementsByClassName('add');
-	for(i=0; i<addButton.length; i++){
-		addButton[i].addEventListener("click", function(){
-			document.body.style.backgroundColor = "#222222";
-		});
-	}*/
+	
+	
 
 }//end onload
 
