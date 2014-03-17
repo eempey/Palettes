@@ -102,7 +102,7 @@ window.onload=function(){
 						console.log(mousePos);
 						//cpContainer.style.top = evt.clientY - (evt.clientY - cpContainer.offsetTop)
 				}
-				pickerHandle.onmousedown = pickerHandleDrag(event);
+				//pickerHandle.onmousedown = pickerHandleDrag(event);
 				/*var pickerHandleDrag = function(){
 	                return {
 	                    move : function(divid,xpos,ypos){

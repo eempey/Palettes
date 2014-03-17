@@ -14,9 +14,13 @@ header{
 input#title{
 	font-size: 40px;
 }
+#colorForm{
+	display: block;
+}
 
 .colorPanel{
 	width:250px;
+	height: 362px;
 	float: left;
 	margin-bottom: 30px;
 }
@@ -25,6 +29,7 @@ input#title{
 	height:250px;
 	width:250px;
 	margin: auto;
+	border: 1px solid #C0C0C0;
 }
 
 /* This is the original color picker */
@@ -38,7 +43,8 @@ input#title{
 	width: 600px;
 	visibility: hidden;
 	border: solid 1px black;
-	position: absolute;
+	display: block;
+	float: left;
 }
 #colorPicker div{
 	cursor: move;
