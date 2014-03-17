@@ -27,12 +27,29 @@ input#title{
 	margin: auto;
 }
 
+/* This is the original color picker */
 #picker{
 	width: 600px;
 	height: 600px;
 
 }
-
+/*This is the new color picker */
+#colorPicker{
+	width: 600px;
+	visibility: hidden;
+	border: solid 1px black;
+	position: absolute;
+}
+#colorPicker div{
+	cursor: move;
+	width: 100%;
+}
+#colorPicker h3{
+	display: inline;
+}
+#colorPicker button{
+	float: right;
+}
 button{
 	font-size: 20px;
 	cursor: pointer;
