@@ -196,16 +196,6 @@ window.onload=function(){
 		addPicker(newColorBox);
 		addButtonInitializer(newAddButton);
 
-		/*var hexBoxes = document.getElementsByClassName("hex");
-		for(i=0; i<hexBoxes.length; i++){
-			inputColor(hexBoxes[i]);
-		}
-
-		var rgbBoxes = document.getElementsByClassName("rgb");
-		for(i=0; i<hexBoxes.length; i++){
-			inputColor(rgbBoxes[i]);
-		}*/
-
 		colorForm.appendChild(fieldsetBlock)
 	}
 
