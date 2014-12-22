@@ -153,11 +153,11 @@ window.onload=function(){
 			var parentalUnit = input.parentNode;
 			var colorBox = parentalUnit.getElementsByClassName("colorBox")[0].style.backgroundColor = input.value;
 			if(input.className == "hex"){
-				document.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
+				parentalUnit.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
 																		+ hexToRgb(input.value).g + ", "
 																		+ hexToRgb(input.value).b + ")";
 			}else if(input.className == "rgb"){
-				document.getElementsByClassName("hex")[0].value = colorToHex(input.value);
+				parentalUnit.getElementsByClassName("hex")[0].value = colorToHex(input.value);
 			}
 		});
 	}
@@ -165,78 +165,38 @@ window.onload=function(){
 	inputColor(document.getElementsByClassName("hex")[0]);
 	inputColor(document.getElementsByClassName("rgb")[0]);
 
-	function radioSwitcher(radioButton){
-		radioButton.addEventListener("click", function(){
-			var radioParent = radioButton.parentNode;
-			document.body.style.backgroundColor = radioParent.getElementsByClassName("hex")[0].value;
-		});
-	}
+	function createColorPanel(){
 
-	function textRadioSwitcher(radioButton){
-		radioButton.addEventListener("click", function(){
-			var radioParent = radioButton.parentNode;
-			document.body.style.color = radioParent.getElementsByClassName("hex")[0].value;
-		});
-	}
-	
-	radioSwitcher(document.getElementsByClassName('backgroundButton')[0]);
-	textRadioSwitcher(document.getElementsByClassName('textButton')[0]);
-
-	function createColorPanel(){		
 		var colorForm = document.getElementById("colorForm");
-		var newNode = document.createElement("div");
-		newNode.className = "colorPanel";
-		var newColorBox = document.createElement("div");
-		newColorBox.className = "colorBox";
-		newNode.appendChild(newColorBox);
 		
-		backgroundRadio = document.createElement("input");
-		backgroundRadio.className = "backgroundButton";
-		backgroundRadio.type = "radio";
-		backgroundRadio.value = "background";
-		backgroundRadio.name = "background";
-		newNode.appendChild(backgroundRadio);
-
-		backgroundSpan = document.createElement("span")
-		backgroundSpan.innerHTML = "Background";
-		newNode.appendChild(backgroundSpan);
-
-		textRadio = document.createElement("input");
-		textRadio.className = "textButton";
-		textRadio.type = "radio";
-		textRadio.value = "text";
-		textRadio.name = "text";
-		newNode.appendChild(textRadio);
-
-		textSpan = document.createElement("span")
-		textSpan.innerHTML = "Text";
-		newNode.appendChild(textSpan);
-
-		descriptionText = document.createElement("input");
+		var fieldsetBlock = document.createDocumentFragment();
+		var fieldset = fieldsetBlock.appendChild(document.createElement("fieldset"));
+		fieldset.className = "colorPanel";
+		var newColorBox = fieldset.appendChild(document.createElement("div"));
+		newColorBox.className = "colorBox";
+		
+		descriptionText = fieldset.appendChild(document.createElement("input"));
 		descriptionText.className = "descriptionText";
 		descriptionText.placeholder = "Swatch Description";
-		newNode.appendChild(descriptionText);
 
-		hexText = document.createElement("input");
+		hexText = fieldset.appendChild(document.createElement("input"));
 		hexText.className = "hex";
 		hexText.placeholder = "hex";
-		newNode.appendChild(hexText);
-
-		rgbText = document.createElement("input");
+		inputColor(hexText);
+		
+		rgbText = fieldset.appendChild(document.createElement("input"));
 		rgbText.className = "rgb";
 		rgbText.placeholder = "rgb";
-		newNode.appendChild(rgbText);
-
-		newAddButton = document.createElement("button");
+		inputColor(rgbText);
+		
+		newAddButton = fieldset.appendChild(document.createElement("button"));
 		newAddButton.className = "add";
 		newAddButton.type = "button";
 		newAddButton.innerHTML = "+";
-		newNode.appendChild(newAddButton);
-		colorForm.appendChild(newNode);
 		addPicker(newColorBox);
 		addButtonInitializer(newAddButton);
 
-		var hexBoxes = document.getElementsByClassName("hex");
+		/*var hexBoxes = document.getElementsByClassName("hex");
 		for(i=0; i<hexBoxes.length; i++){
 			inputColor(hexBoxes[i]);
 		}
@@ -244,17 +204,9 @@ window.onload=function(){
 		var rgbBoxes = document.getElementsByClassName("rgb");
 		for(i=0; i<hexBoxes.length; i++){
 			inputColor(rgbBoxes[i]);
-		}
+		}*/
 
-		var backgroundRadio = document.getElementsByClassName('backgroundButton');
-		for(i=0; i<backgroundRadio.length; i++){
-			radioSwitcher(backgroundRadio[i]);
-		}
-
-		var textRadio = document.getElementsByClassName('textButton');
-		for(i=0; i<textRadio.length; i++){
-			textRadioSwitcher(textRadio[i]);
-		}
+		colorForm.appendChild(fieldsetBlock)
 	}
 
 	function addButtonInitializer(button){
@@ -284,7 +236,7 @@ window.onload=function(){
 		newMinusButton.innerHTML = "-";
 		if(colorPanels.length > 1){
 			for(i=0; i<colorPanels.length; i++){
-				colorPanels[i].insertBefore(newMinusButton, document.getElementsByName("background")[i]);
+				colorPanels[i].insertBefore(newMinusButton, document.getElementsByClassName("descriptionText")[i]);
 			}
 		}
 		var removeButtons = document.getElementsByClassName("minus");
