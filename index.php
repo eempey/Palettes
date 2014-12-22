@@ -27,12 +27,11 @@
 				<!-- <input type="submit" value="Save"> -->
 		</form>
 
-		<div id="colorPicker">
+	<div id="colorPicker">
 		<div id="pickerHandle"> 
 			<h3>Color Picker</h3> 
 			<button>X</button>
-		</div>
-		
+		</div>	
 	</div>
 
 		<p>Palettes is for designers and developers who want to keep track of their color schemes. Add an unlimited number of colors to your palette, and name each color for its purpose.  </p>
