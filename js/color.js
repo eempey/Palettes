@@ -178,6 +178,7 @@ window.onload=function(){
 		descriptionText = fieldset.appendChild(document.createElement("input"));
 		descriptionText.className = "descriptionText";
 		descriptionText.placeholder = "Swatch Description";
+		descriptionText.name = "swatch_name[]";
 
 		hexText = fieldset.appendChild(document.createElement("input"));
 		hexText.className = "hex";
@@ -187,6 +188,7 @@ window.onload=function(){
 		rgbText = fieldset.appendChild(document.createElement("input"));
 		rgbText.className = "rgb";
 		rgbText.placeholder = "rgb";
+		rgbText.name ="rgb[]";
 		inputColor(rgbText);
 		
 		newAddButton = fieldset.appendChild(document.createElement("button"));
@@ -200,10 +202,10 @@ window.onload=function(){
 	}
 
 	function addButtonInitializer(button){
-			button.addEventListener("click", function(){
-				createColorPanel();
-				createRemoveButton();
-			});
+		button.addEventListener("click", function(){
+			createColorPanel();
+			createRemoveButton();
+		});
 	}
 
 	var addButton = document.getElementsByClassName('add');
