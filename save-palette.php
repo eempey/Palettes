@@ -2,7 +2,7 @@
 
 	require_once 'inc/connect.php';
 
-	echo $_POST['palette_title'].'<br>';
+/*	echo $_POST['palette_title'].'<br>';
    	$form_length =  sizeof($_POST['rgb']). '<br>';
 
    	for($i=0; $i < $form_length; $i++){
@@ -14,7 +14,7 @@
     }
     foreach ($_POST['rgb'] as $field) {
     	echo $field . '<br>';
-    }
+    }*/
 	
     $user_id = 1;
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false); 
@@ -24,9 +24,9 @@
     $stmt1->bindParam(1, $user_id);
     $stmt1->bindParam(2, $_POST['palette_title']);
 
-    if (!$stmt1) {
+    /*if (!$stmt1) {
     echo "\nPDO::errorInfo():\n";
-    print_r($pdo->errorInfo());}
+    print_r($pdo->errorInfo());}*/
     $stmt1->execute();
 
     $paletteId = $pdo->lastInsertId();
@@ -42,9 +42,4 @@
       $stmt2->execute();       
     }
 
-    //header('load-palette.php?')
- 
-
-
-
- ?>
+    header("Location: load-palette.php?palette_id=".$paletteId);
