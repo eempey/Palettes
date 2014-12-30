@@ -176,23 +176,16 @@ window.onload=function(){
 	function loadColors(){
 		var hexInputs = document.querySelectorAll("input.hex");
 		var rgbInputs = document.querySelectorAll("input.rgb");
-
 		for(i=0; i<rgbInputs.length; i++){
-			rgbInputs[i].previousElementSibling.value = colorToHex(rgbInputs[i].value);
-			rgbInputs[i].parentNode.getElementsByClassName("colorBox")[0].style.backgroundColor = rgbInputs[i].value;
+			if(rgbInputs[i].value){
+				rgbInputs[i].previousElementSibling.value = colorToHex(rgbInputs[i].value);
+				rgbInputs[i].parentNode.getElementsByClassName("colorBox")[0].style.backgroundColor = rgbInputs[i].value;
+			}
 		}
-
-		/*if(input.className == "hex"){
-			parentalUnit.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
-																	+ hexToRgb(input.value).g + ", "
-																	+ hexToRgb(input.value).b + ")";
-		}else if(input.className == "rgb"){
-			parentalUnit.getElementsByClassName("hex")[0].value = colorToHex(input.value);
-		}*/
 	}
 	loadColors();
 
-	function createColorPanel(){
+	function createColorPanel(button){
 
 		var colorForm = document.getElementById("colorForm");
 		
@@ -201,6 +194,11 @@ window.onload=function(){
 		fieldset.className = "colorPanel";
 		var newColorBox = fieldset.appendChild(document.createElement("div"));
 		newColorBox.className = "colorBox";
+
+		newMinusButton = fieldset.appendChild(document.createElement("button"));
+		newMinusButton.className = "minus";
+		newMinusButton.type = "button";
+		newMinusButton.innerHTML = "-";
 		
 		descriptionText = fieldset.appendChild(document.createElement("input"));
 		descriptionText.className = "descriptionText";
@@ -222,15 +220,17 @@ window.onload=function(){
 		newAddButton.className = "add";
 		newAddButton.type = "button";
 		newAddButton.innerHTML = "+";
+		
 		addPicker(newColorBox);
 		addButtonInitializer(newAddButton);
+		clickRemoveButton(newMinusButton);
 
-		colorForm.appendChild(fieldsetBlock)
+		colorForm.insertBefore(fieldsetBlock, button.parentNode.nextSibling);
 	}
 
 	function addButtonInitializer(button){
 		button.addEventListener("click", function(){
-			createColorPanel();
+			createColorPanel(this);
 			createRemoveButton();
 		});
 	}
@@ -246,24 +246,6 @@ window.onload=function(){
 		var currentColorBox = colorBox[i];
 		addPicker(currentColorBox);
 	}	
-
-	function createRemoveButton(){
-		colorPanels = document.getElementsByClassName("colorPanel");
-		newMinusButton = document.createElement("button");
-		newMinusButton.className = "minus";
-		newMinusButton.type = "button";
-		newMinusButton.innerHTML = "-";
-		if(colorPanels.length > 1){
-			for(i=0; i<colorPanels.length; i++){
-				colorPanels[i].insertBefore(newMinusButton, document.getElementsByClassName("descriptionText")[i]);
-			}
-		}
-		var removeButtons = document.getElementsByClassName("minus");
-		for(i=0; i<removeButtons.length; i++){
-			var currentRemoveButton = removeButtons[i];
-			clickRemoveButton(currentRemoveButton);
-		}		
-	}
 
 	function clickRemoveButton(currentRemoveButton){	
 		currentRemoveButton.addEventListener("click", function(){
