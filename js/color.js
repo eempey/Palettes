@@ -162,8 +162,35 @@ window.onload=function(){
 		});
 	}
 
-	inputColor(document.getElementsByClassName("hex")[0]);
-	inputColor(document.getElementsByClassName("rgb")[0]);
+	function initializeInputColor(){
+		var fieldsets = document.getElementsByTagName("fieldset").length;
+		var hexInputs = document.getElementsByClassName("hex");
+		var rgbInputs = document.getElementsByClassName("rgb");
+		for(i=0; i<fieldsets; i++){
+			inputColor(hexInputs[i]);
+			inputColor(rgbInputs[i]);
+		}
+	}
+	initializeInputColor();
+
+	function loadColors(){
+		var hexInputs = document.querySelectorAll("input.hex");
+		var rgbInputs = document.querySelectorAll("input.rgb");
+
+		for(i=0; i<rgbInputs.length; i++){
+			rgbInputs[i].previousElementSibling.value = colorToHex(rgbInputs[i].value);
+			rgbInputs[i].parentNode.getElementsByClassName("colorBox")[0].style.backgroundColor = rgbInputs[i].value;
+		}
+
+		/*if(input.className == "hex"){
+			parentalUnit.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
+																	+ hexToRgb(input.value).g + ", "
+																	+ hexToRgb(input.value).b + ")";
+		}else if(input.className == "rgb"){
+			parentalUnit.getElementsByClassName("hex")[0].value = colorToHex(input.value);
+		}*/
+	}
+	loadColors();
 
 	function createColorPanel(){
 
