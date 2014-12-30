@@ -231,7 +231,9 @@ window.onload=function(){
 	function addButtonInitializer(button){
 		button.addEventListener("click", function(){
 			createColorPanel(this);
-			createRemoveButton();
+			if(document.getElementsByClassName('minus').length > 1){
+				document.getElementsByClassName('minus')[0].style.display = "inline";
+			}	
 		});
 	}
 
@@ -245,12 +247,28 @@ window.onload=function(){
 	for(i=0; i<colorBox.length; i++){
 		var currentColorBox = colorBox[i];
 		addPicker(currentColorBox);
+	}
+
+	if(colorBox.length === 1){
+		document.getElementsByClassName('minus')[0].style.display = "none";
 	}	
+
+	function createRemoveButton(){
+		var removeButtons = document.getElementsByClassName("minus");
+		for(i=0; i<removeButtons.length; i++){
+			var currentRemoveButton = removeButtons[i];
+			clickRemoveButton(currentRemoveButton);
+		}
+	}
+	createRemoveButton();
 
 	function clickRemoveButton(currentRemoveButton){	
 		currentRemoveButton.addEventListener("click", function(){
-			var parent = currentRemoveButton.parentNode
+			var parent = currentRemoveButton.parentNode;
 			parent.remove();
+			if(document.getElementsByClassName('minus').length === 1){
+				document.getElementsByClassName('minus')[0].style.display = "none";
+			}	
 		});
 	}
 
