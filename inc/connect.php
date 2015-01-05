@@ -8,7 +8,4 @@
 
 	$pdo = new PDO('mysql:host='.DATABASE_HOST.';dbname='.DATABASE, USERNAME, PASSWORD);
 		
-	//$statement = $pdo->query("SELECT 'Hello, dear MySQL user!' AS _message FROM DUAL");
-	//$row = $statement->fetch(PDO::FETCH_ASSOC);
-	//echo htmlentities($row['_message']);
  ?>

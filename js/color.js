@@ -34,11 +34,15 @@ window.onload=function(){
 			var cpContainer = document.getElementById("colorPicker");
 			var pickerHandle = document.querySelector("#pickerHandle");
 
-			//document.getElementById("colorForm").insertBefore(canvas, parent.nextSibling);
+			cpContainer.style.left = document.documentElement.clientWidth / 2 - 300 + "px";
+			cpContainer.style.top = document.documentElement.scrollTop + 50 + "px";
+
+			//Make the color picker container visible
 			if(cpContainer.style.visibility ="hidden"){
 				cpContainer.style.visibility ="visible";
 			}
 
+			//create and add a color canvas to the color picker canvas
 			if(!document.getElementById("picker")){
 				var pickerTool = document.createElement("canvas");
 				pickerTool.id = "picker";
@@ -97,52 +101,40 @@ window.onload=function(){
 					document.getElementById("colorPicker").style.visibility ="hidden";
 				});
 
-				function pickerHandleDrag(event){
-						var mousePos = getMousePos(cpContainer, event);
-						console.log(mousePos);
-						//cpContainer.style.top = evt.clientY - (evt.clientY - cpContainer.offsetTop)
-				}
-				//pickerHandle.onmousedown = pickerHandleDrag(event);
-				/*var pickerHandleDrag = function(){
-	                return {
-	                    move : function(divid,xpos,ypos){
-	                        cpContainer.style.left = xpos + 'px';
-	                        cpContainer.style.top = ypos + 'px';
-	                    },
-	                    startMoving : function(evt){
-	                        evt = evt || window.event;
-	                        var posX = evt.clientX,
-	                            posY = evt.clientY,
-	                        divTop = cpContainer.style.top,
-	                        divLeft = cpContainer.style.left;
-	                        divTop = divTop.replace('px','');
-	                        divLeft = divLeft.replace('px','');
-	                        var diffX = posX - divLeft,
-	                            diffY = posY - divTop;
-	                        document.onmousemove = function(evt){
-	                            evt = evt || window.event;
-	                            var posX = evt.clientX,
-	                                posY = evt.clientY,
-	                                aX = posX - diffX,
-	                                aY = posY - diffY;
-	                            pickerHandleDrag.move('elem',aX,aY);
-	                        }
-	                    },
-	                    stopMoving : function(){
-	                        var a = document.createElement('script');
-	                        document.onmousemove = function(){}
-	                    },
-	                }
-	            }();
-	         	pickerHandle.addEventListener("mousedown", function(evt){
-	         		pickerHandleDrag.startMoving(evt);
-	         		console.log("Hello");
-	         	});
-	         	pickerHandle.addEventListener("mouseup", function(){
-	         		pickerHandleDrag.stopMoving();
-	         		console.log("world");
-	         	})*/
 			}//end if(!document.getElementById("picker"))
+
+			//drag function for moving color picker around
+			function drag(elementToDrag, event){
+				var startX = event.clientX;
+				var startY = event.clientY;
+
+				var origX = elementToDrag.offsetLeft;
+				var origY = elementToDrag.offsetTop;
+
+				var deltaX = startX - origX;
+				var deltaY = startY - origY;
+
+				document.addEventListener("mousemove", moveHandler, true);
+				document.addEventListener("mouseup", upHandler, true);
+
+				event.stopPropagation();
+				event.preventDefault();
+
+				function moveHandler(e){
+					elementToDrag.style.left = (e.clientX - deltaX) + "px";
+					elementToDrag.style.top = (e.clientY - deltaY) + "px";
+					e.stopPropagation();
+				}
+
+				function upHandler(e){
+					document.removeEventListener("mousemove", moveHandler, true);
+					document.removeEventListener("mouseup", upHandler, true);
+					e.stopPropagation();
+				}
+			}
+			pickerHandle.addEventListener('mousedown', function(event){
+				drag(cpContainer, event);
+			});
 		});//end click on colorBox
 	}
 
@@ -150,7 +142,7 @@ window.onload=function(){
 	
 	function inputColor(input){		
 		input.addEventListener("blur", function(){
-			var parentalUnit = input.parentNode;
+			var parentalUnit = input.parentNode.parentNode;
 			var colorBox = parentalUnit.getElementsByClassName("colorBox")[0].style.backgroundColor = input.value;
 			if(input.className == "hex"){
 				parentalUnit.getElementsByClassName("rgb")[0].value = "rgb(" + hexToRgb(input.value).r + ", " 
@@ -179,7 +171,7 @@ window.onload=function(){
 		for(i=0; i<rgbInputs.length; i++){
 			if(rgbInputs[i].value){
 				rgbInputs[i].previousElementSibling.value = colorToHex(rgbInputs[i].value);
-				rgbInputs[i].parentNode.getElementsByClassName("colorBox")[0].style.backgroundColor = rgbInputs[i].value;
+				rgbInputs[i].parentNode.parentNode.getElementsByClassName("colorBox")[0].style.backgroundColor = rgbInputs[i].value;
 			}
 		}
 	}
@@ -195,28 +187,31 @@ window.onload=function(){
 		var newColorBox = fieldset.appendChild(document.createElement("div"));
 		newColorBox.className = "colorBox";
 
-		newMinusButton = fieldset.appendChild(document.createElement("button"));
+		var newMinusButton = fieldset.appendChild(document.createElement("button"));
 		newMinusButton.className = "minus";
 		newMinusButton.type = "button";
 		newMinusButton.innerHTML = "-";
 		
-		descriptionText = fieldset.appendChild(document.createElement("input"));
+		var colorInputs = fieldset.appendChild(document.createElement("div"));
+		colorInputs.className = "colorInputs";
+
+		var descriptionText = colorInputs.appendChild(document.createElement("input"));
 		descriptionText.className = "descriptionText";
 		descriptionText.placeholder = "Swatch Description";
 		descriptionText.name = "swatch_name[]";
 
-		hexText = fieldset.appendChild(document.createElement("input"));
+		var hexText = colorInputs.appendChild(document.createElement("input"));
 		hexText.className = "hex";
 		hexText.placeholder = "hex";
 		inputColor(hexText);
 		
-		rgbText = fieldset.appendChild(document.createElement("input"));
+		var rgbText = colorInputs.appendChild(document.createElement("input"));
 		rgbText.className = "rgb";
 		rgbText.placeholder = "rgb";
 		rgbText.name ="rgb[]";
 		inputColor(rgbText);
 		
-		newAddButton = fieldset.appendChild(document.createElement("button"));
+		var newAddButton = fieldset.appendChild(document.createElement("button"));
 		newAddButton.className = "add";
 		newAddButton.type = "button";
 		newAddButton.innerHTML = "+";

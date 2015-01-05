@@ -24,9 +24,11 @@
 						<fieldset class="colorPanel">
 							<div class="colorBox"></div>
 							<button type="button" class="minus">-</button>
-							<input type="text" class="descriptionText" name="swatch_name[]" placeholder= "Swatch description" value="<?php echo $color_row['color_name']; ?> ">
-							<input type="text" value="" placeholder="hex" class="hex">
-							<input type="text" placeholder="rgb" name="rgb[]" class="rgb" value="<?php echo $color_row['rgb_value']; ?>">
+							<div class="colorInputs">
+								<input type="text" class="descriptionText" name="swatch_name[]" placeholder= "Swatch description" value="<?php echo $color_row['color_name']; ?> ">
+								<input type="text" value="" placeholder="hex" class="hex">
+								<input type="text" placeholder="rgb" name="rgb[]" class="rgb" value="<?php echo $color_row['rgb_value']; ?>">
+							</div>
 							<button type="button" class="add">+</button>	
 						</fieldset>
 					<?php  } ?>
@@ -34,7 +36,7 @@
 				</form>
 
 				<div id="colorPicker">
-					<div id="pickerHandle"> 
+					<div id="pickerHandle" class="group"> 
 						<h3>Color Picker</h3> 
 						<button>X</button>
 					</div>	
