@@ -42,7 +42,7 @@ window.onload=function(){
 				cpContainer.style.visibility ="visible";
 			}
 
-			//create and add a color canvas to the color picker canvas
+			//create and add a color canvas to the color picker container
 			if(!document.getElementById("picker")){
 				var pickerTool = document.createElement("canvas");
 				pickerTool.id = "picker";
