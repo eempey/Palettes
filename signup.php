@@ -9,3 +9,5 @@
 	<label for="username">Username</label>
 	<input type="text" name="username" placeholder="Username">
 </form>
+
+<?php include 'footer.php'; ?>
