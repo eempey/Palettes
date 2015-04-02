@@ -2,12 +2,13 @@
 	require_once 'inc/connect.php';
 	//check that the user is authorized to change the palette!
 	if(isset($_GET['palette_id'])){ 
-		$palette_query = "SELECT palette_name FROM palettes WHERE palette_id =".$_GET['palette_id'];
+		$palette_id = $_GET['palette_id'];
+		$palette_query = "SELECT palette_name FROM palettes WHERE palette_id =".$palette_id;
 		$palette_result = $pdo->query($palette_query);
 		$palette_row = $palette_result->fetch();
 		$palette_name = $palette_row[0];
 
-		$color_query = "SELECT * FROM colors WHERE palette_id =".$_GET['palette_id'];
+		$color_query = "SELECT * FROM colors WHERE palette_id =".$palette_id;
 		$color_result = $pdo->query($color_query);
 
 		?>
@@ -32,7 +33,10 @@
 							<button type="button" class="add">+</button>	
 						</fieldset>
 					<?php  } ?>
-					<input type="submit" value="Save">
+					<input type="hidden" name="palette_id" value="<?php echo $palette_id ?>">
+					<input type="submit" name="update_palette" value="Update">
+					<input type="submit" name="save_palette" value="Save">
+					<input type="submit" name="delete_palette" value="Delete">
 				</form>
 
 				<div id="colorPicker">

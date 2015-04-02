@@ -6,6 +6,14 @@
 	define('DATABASE', 'palettes');
 	define('PASSWORD', '');
 
-	$pdo = new PDO('mysql:host='.DATABASE_HOST.';dbname='.DATABASE, USERNAME, PASSWORD);
+	try{
+		$pdo = new PDO('mysql:host='.DATABASE_HOST.';dbname='.DATABASE, USERNAME, PASSWORD);
+	}
+	catch (PDOException $e)
+	{
+	  $output = 'Unable to connect to the database server.';
+	  echo $output;
+	  exit();
+	}
 		
  ?>

@@ -10,5 +10,5 @@
 
 <body>
 	<header> 
-		<h1>Palettes</h1> 
+		<h1><a href="index.php">Palettes</a></h1> 
 	</header>
